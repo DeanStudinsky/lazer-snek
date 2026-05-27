@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lazer Snek — Snake Battle</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="title">SNAKE BATTLE</div>
+      <div class="controls">
+        <button id="btn-single" aria-label="Start single player">Single Player</button>
+        <button id="btn-pvp" aria-label="Start local PvP">PvP</button>
+        <select id="difficulty" aria-label="Select difficulty">
+          <option value="HARD">Hard</option>
+          <option value="EASY">Easy</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="game-area" class="game-area" role="main">
+      <!-- p5 will inject the canvas here. Use CSS to scale canvas responsively. -->
+      <div class="hint">Tip: Use keyboard to control or click the buttons above to start a game.</div>
+    </main>
+
+    <aside class="sidebar">
+      <h4>Controls</h4>
+      <ul>
+        <li>Single: Arrows + SPACE</li>
+        <li>PvP Green: WASD + CTRL</li>
+        <li>PvP Purple: Arrows + SPACE</li>
+      </ul>
+      <h4>Assets</h4>
+      <p>Put PNGs in <code>assets/</code> named:</p>
+      <ul>
+        <li><code>snake_head.png</code></li>
+        <li><code>snake_body.png</code></li>
+        <li><code>snake_tail.png</code></li>
+        <li><code>fruit.png</code></li>
+      </ul>
+    </aside>
+
+    <footer class="app-footer">Made with p5.js • <a href="MODULARIZATION.md">Modularization guide</a></footer>
+  </div>
+
+  <noscript>Please enable JavaScript to play the game.</noscript>
+
+  <script>
+    // Wire the UI controls to the game functions (will be called when user clicks)
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('btn-single').addEventListener('click', () => startGame('SINGLE'));
+      document.getElementById('btn-pvp').addEventListener('click', () => startGame('PVP'));
+      document.getElementById('difficulty').addEventListener('change', (e) => setDifficulty(e.target.value));
+    });
+
+    // Resize p5 canvas to fit container responsively (2:1 aspect ratio)
+    function windowResized() {
+      let area = document.getElementById('game-area');
+      if (!area || !window._p5Canvas) return;
+      const maxWidth = Math.min(area.clientWidth * 0.95, 1200);
+      const w = maxWidth;
+      const h = w / 2; // 2:1 aspect ratio
+      resizeCanvas(w, h);
+    }
+
+    // p5 will call this after it creates the canvas; we hook into setup by monitoring for canvas
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (node && node.nodeName === 'CANVAS') {
+            window._p5Canvas = node;
+            node.style.maxWidth = 'min(95vw, 1200px)';
+            node.style.width = '100%';
+            node.style.height = 'auto';
+            node.style.imageRendering = 'pixelated';
+            windowResized();
+            window.addEventListener('resize', windowResized);
+            observer.disconnect();
+            return;
+          }
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+
+  <script src="js/assets.js"></script>
+  <script src="js/laser.js"></script>
+  <script src="js/snake.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/input.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+:root{
+  --bg: #0f1720;
+  --panel: #111827;
+  --muted: #9ca3af;
+  --accent: #60ff40;
+  --accent-2: #ff40c8;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(180deg, #0b0f14 0%, #141820 100%);
+  color: #eee;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  height: 100vh;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.app-header {
+  grid-column: 1 / span 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 20px;
+}
+
+.controls button, .controls select {
+  background: transparent;
+  border: 1px solid #2b3036;
+  color: #fff;
+  padding: 8px 10px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls button:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.6); }
+
+.game-area {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  position: relative;
+}
+
+.game-area .hint { position: absolute; top: 14vh; color: var(--muted); font-size: 14px; }
+
+.sidebar {
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.app-footer {
+  grid-column: 1 / span 2;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  padding-top: 6px;
+}
+
+canvas {
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  image-rendering: pixelated; /* preserves blocky look */
+  max-width: min(95vw, 1200px);
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; }
+  .sidebar { order: 3; }
+  .app-footer { order: 4; }
+}
